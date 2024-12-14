@@ -10,7 +10,7 @@ async function getPosts() {
 
   if (!response.ok) {
     throw Object.assign(
-      new Error(`An error occurred trying to get blog posts`),
+      new Error(`An error occurred attempting to retrieve blog posts.`),
       { response }
     );
   }
