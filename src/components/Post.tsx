@@ -37,7 +37,7 @@ function Post({
             <div>
               <h3 className={styles.postTitle}>{title}</h3>
               <div>
-                <time className={styles.time}>{date.toLocaleString()}</time>
+                <time className={styles.time}>{date.toLocaleDateString()}</time>
               </div>
             </div>
             {showAction && (

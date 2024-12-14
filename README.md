@@ -1,50 +1,21 @@
-# React + TypeScript + Vite
+# CN Blog
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Install & Run
 
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+```shell
+$ npm i
+$ npm run dev
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+## Project Breakdown
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+This is a pretty quickly pulled together React SPA app with some attempts at organization
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+- Couple custom hooks created to consolidate side effect logic
+- Decided to go with a straight SPA application, specifically since the provided endpoint was publically available
+- Likely would have gone with Remix or Next.js if I needed to call the API from the server
+- Used Vite w/ TypeScript to get moving quickly
+- Added Zod package to parse and validate JSON returned from fetch calls and helping with static type support
+- Added React Query package to help with async state management
+- Added Radix UI for some UI Components but mainly did styling with CSS Modules; wouldn't be keen on a mix-and-match setup like this on a large project
+- Used local storage to persist favorites list but would absolutely not recommend this type of solution for a production application as this type of persistance should be completed with a database of some kind server side

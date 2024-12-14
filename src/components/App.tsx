@@ -14,7 +14,7 @@ function App() {
 
   const {
     data: posts,
-    fetchStatus,
+    isLoading,
     error,
   } = useQuery({
     queryKey: ['posts'],
@@ -66,7 +66,7 @@ function App() {
     <Container mx="3">
       <main>
         <h1>Blog Posts</h1>
-        {fetchStatus === 'fetching' ? (
+        {isLoading ? (
           <Spinner />
         ) : (
           <>
