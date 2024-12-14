@@ -1,3 +1,6 @@
+import { DrawingPinIcon } from '@radix-ui/react-icons';
+import { Button } from '@radix-ui/themes';
+
 interface TagProps {
   tag: string;
   onClick: (tag: string) => void;
@@ -10,9 +13,10 @@ function Tag({ tag, onClick }: TagProps) {
 
   return (
     <li>
-      <button type="button" onClick={handleClick}>
+      <Button type="button" size="1" onClick={handleClick}>
+        <DrawingPinIcon />
         {tag}
-      </button>
+      </Button>
     </li>
   );
 }

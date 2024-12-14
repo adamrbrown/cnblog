@@ -1,0 +1,11 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  margin: 0 0 0.5rem;
+}
+
+.tagList {
+  display: flex;
+  gap: 0.25rem;
+  flex-wrap: wrap;
+}

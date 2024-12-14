@@ -2,42 +2,14 @@ import { useState } from 'react';
 // import { useQuery } from '@tanstack/react-query';
 // import { getPosts } from './api';
 import { useFavoritePosts } from '../hooks/useFavoritePosts';
-import { Post as PostType } from '../api/types';
-import { Post } from './Post';
 import { Tag } from './Tag';
+import { Button, Container, Heading, Spinner, Text } from '@radix-ui/themes';
+import { posts } from '../lib/data';
+import { useActiveList } from '../hooks/useActiveList';
+import { PostList } from './PostList';
+import styles from './App.module.css';
 import './App.css';
 
-// Temp Vars
-const posts: PostType[] = [
-  {
-    id: '4',
-    title: 'Post Title 4',
-    body: 'This is a post body',
-    tags: ['cool'],
-    creationTime: 1734147789,
-  },
-  {
-    id: '3',
-    title: 'Post Title 3',
-    body: 'This is a post body',
-    tags: ['cool', 'fun', 'potato', 'raccoon'],
-    creationTime: 1734147809,
-  },
-  {
-    id: '2',
-    title: 'Post Title 2',
-    body: 'This is a post body',
-    tags: ['awesome', 'woohoo', 'potato'],
-    creationTime: 1734147790,
-  },
-  {
-    id: '1',
-    title: 'Post Title 1',
-    body: 'This is a post body',
-    tags: ['awesome', 'cool', 'woohoo', 'so', 'many', 'tags'],
-    creationTime: 1734147064,
-  },
-];
 const fetching = false;
 
 function App() {
@@ -52,7 +24,7 @@ function App() {
     key: 'favorites',
   });
 
-  console.log(favorites);
+  const { activeList, updateActiveList } = useActiveList();
 
   const handleAddFavorite = (id: string) => {
     addFavorite(id);
@@ -73,60 +45,71 @@ function App() {
     });
   };
 
+  const handleSetAllActiveList = () => {
+    updateActiveList('all');
+  };
+
+  const handleSetFavoriteActiveList = () => {
+    updateActiveList('favorite');
+  };
+
+  const allPosts = posts.filter(
+    (post) =>
+      activeTags.length === 0 ||
+      activeTags.every((tag) => post.tags.includes(tag))
+  );
+
+  const favoritePosts = posts.filter((post) => favorites.includes(post.id));
+
   return (
-    <main>
-      <h1>Blog Posts</h1>
-      {fetching ? (
-        <span>Loading ...</span>
-      ) : (
-        <>
-          <div>
-            <h2>All Posts</h2>
-            <div>
-              <span>Active Tags:</span>
-              <ul>
-                {activeTags.map((tag) => (
-                  <Tag key={tag} tag={tag} onClick={handleRemoveTag} />
-                ))}
-              </ul>
+    <Container mx="3">
+      <main>
+        <Heading as="h1">Blog Posts</Heading>
+
+        {fetching ? (
+          <Spinner />
+        ) : (
+          <div className={styles.grid}>
+            <div className={styles.mobileToggleButtons}>
+              <Button onClick={handleSetAllActiveList}>All Posts</Button>
+              <Button onClick={handleSetFavoriteActiveList}>Favorites</Button>
             </div>
-            <ul>
-              {posts
-                .filter(
-                  (post) =>
-                    activeTags.length === 0 ||
-                    activeTags.every((tag) => post.tags.includes(tag))
-                )
-                .map((post) => (
-                  <Post
-                    key={post.id}
-                    post={post}
-                    actionCopy="Add"
-                    onActionClick={handleAddFavorite}
-                    onTagClick={handleTagClick}
-                  />
-                ))}
-            </ul>
+            {(activeList === 'all' || activeList === 'both') && (
+              <div className={styles.allPosts}>
+                <Heading as="h2">All Posts</Heading>
+                <div className={styles.activeTags}>
+                  <Text as="span">Active Tags:</Text>
+                  <ul className={styles.activeTagsList}>
+                    {activeTags.map((tag) => (
+                      <Tag key={tag} tag={tag} onClick={handleRemoveTag} />
+                    ))}
+                  </ul>
+                </div>
+                <PostList
+                  posts={allPosts}
+                  emptyCopy="No Posts"
+                  type="add"
+                  onActionClick={handleAddFavorite}
+                  onTagClick={handleTagClick}
+                />
+              </div>
+            )}
+            {(activeList === 'favorite' || activeList === 'both') && (
+              <div className={styles.favoritePosts}>
+                <Heading as="h2">Favorites</Heading>
+                <PostList
+                  posts={favoritePosts}
+                  emptyCopy="No Favorites"
+                  type="remove"
+                  onActionClick={handleRemoveFavorite}
+                  onTagClick={handleTagClick}
+                />
+              </div>
+            )}
           </div>
-          <div>
-            <h2>Favorites</h2>
-            <ul>
-              {posts
-                .filter((post) => favorites.includes(post.id))
-                .map((post) => (
-                  <Post
-                    key={post.id}
-                    post={post}
-                    actionCopy="Remove"
-                    onActionClick={handleRemoveFavorite}
-                    onTagClick={handleTagClick}
-                  />
-                ))}
-            </ul>
-          </div>
-        </>
-      )}
-    </main>
+        )}
+      </main>
+    </Container>
   );
 }
 
