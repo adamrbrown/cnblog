@@ -9,3 +9,17 @@
   gap: 0.25rem;
   flex-wrap: wrap;
 }
+
+.postHeading {
+  display: flex;
+  justify-content: space-between;
+  margin: 0 0 1rem;
+}
+
+.postTitle {
+  margin: 0;
+}
+
+.time {
+  font-size: 0.75rem;
+}

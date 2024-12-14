@@ -8,9 +8,16 @@
   }
 }
 
+.activeTags {
+  display: flex;
+  gap: 0.25rem;
+  margin: 0 0 1rem;
+}
+
 .activeTagsList {
   display: flex;
   flex-wrap: wrap;
+  gap: 0.25rem;
 }
 
 .mobileToggleButtons {

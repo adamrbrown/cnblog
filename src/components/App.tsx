@@ -3,7 +3,7 @@ import { useState } from 'react';
 // import { getPosts } from './api';
 import { useFavoritePosts } from '../hooks/useFavoritePosts';
 import { Tag } from './Tag';
-import { Button, Container, Heading, Spinner, Text } from '@radix-ui/themes';
+import { Button, Container, Spinner } from '@radix-ui/themes';
 import { posts } from '../lib/data';
 import { useActiveList } from '../hooks/useActiveList';
 import { PostList } from './PostList';
@@ -20,11 +20,11 @@ function App() {
   //   queryFn: getPosts,
   // });
 
+  const { activeList, updateActiveList } = useActiveList();
+
   const { favorites, addFavorite, removeFavorite } = useFavoritePosts({
     key: 'favorites',
   });
-
-  const { activeList, updateActiveList } = useActiveList();
 
   const handleAddFavorite = (id: string) => {
     addFavorite(id);
@@ -64,48 +64,67 @@ function App() {
   return (
     <Container mx="3">
       <main>
-        <Heading as="h1">Blog Posts</Heading>
+        <h1>Blog Posts</h1>
 
         {fetching ? (
           <Spinner />
         ) : (
-          <div className={styles.grid}>
+          <div>
             <div className={styles.mobileToggleButtons}>
-              <Button onClick={handleSetAllActiveList}>All Posts</Button>
-              <Button onClick={handleSetFavoriteActiveList}>Favorites</Button>
+              <Button
+                variant={activeList === 'all' ? 'solid' : 'outline'}
+                onClick={handleSetAllActiveList}
+              >
+                All Posts
+              </Button>
+              <Button
+                variant={activeList === 'favorite' ? 'solid' : 'outline'}
+                onClick={handleSetFavoriteActiveList}
+              >
+                Favorites
+              </Button>
             </div>
-            {(activeList === 'all' || activeList === 'both') && (
-              <div className={styles.allPosts}>
-                <Heading as="h2">All Posts</Heading>
-                <div className={styles.activeTags}>
-                  <Text as="span">Active Tags:</Text>
-                  <ul className={styles.activeTagsList}>
-                    {activeTags.map((tag) => (
-                      <Tag key={tag} tag={tag} onClick={handleRemoveTag} />
-                    ))}
-                  </ul>
+            <div className={styles.grid}>
+              {(activeList === 'all' || activeList === 'both') && (
+                <div className={styles.allPosts}>
+                  <h2>All Posts</h2>
+                  <div className={styles.activeTags}>
+                    <span>Active Tags:</span>
+                    {activeTags.length === 0 ? (
+                      <span>
+                        <em>Select tag to filter &hellip;</em>
+                      </span>
+                    ) : (
+                      <ul className={styles.activeTagsList}>
+                        {activeTags.map((tag) => (
+                          <Tag key={tag} tag={tag} onClick={handleRemoveTag} />
+                        ))}
+                      </ul>
+                    )}
+                  </div>
+                  <PostList
+                    posts={allPosts}
+                    favorites={favorites}
+                    emptyCopy="No Posts"
+                    type="add"
+                    onActionClick={handleAddFavorite}
+                    onTagClick={handleTagClick}
+                  />
                 </div>
-                <PostList
-                  posts={allPosts}
-                  emptyCopy="No Posts"
-                  type="add"
-                  onActionClick={handleAddFavorite}
-                  onTagClick={handleTagClick}
-                />
-              </div>
-            )}
-            {(activeList === 'favorite' || activeList === 'both') && (
-              <div className={styles.favoritePosts}>
-                <Heading as="h2">Favorites</Heading>
-                <PostList
-                  posts={favoritePosts}
-                  emptyCopy="No Favorites"
-                  type="remove"
-                  onActionClick={handleRemoveFavorite}
-                  onTagClick={handleTagClick}
-                />
-              </div>
-            )}
+              )}
+              {(activeList === 'favorite' || activeList === 'both') && (
+                <div className={styles.favoritePosts}>
+                  <h2>Favorites</h2>
+                  <PostList
+                    posts={favoritePosts}
+                    emptyCopy="No Favorites"
+                    type="remove"
+                    onActionClick={handleRemoveFavorite}
+                    onTagClick={handleTagClick}
+                  />
+                </div>
+              )}
+            </div>
           </div>
         )}
       </main>

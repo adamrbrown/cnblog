@@ -13,7 +13,13 @@ function Tag({ tag, onClick }: TagProps) {
 
   return (
     <li>
-      <Button type="button" size="1" onClick={handleClick}>
+      <Button
+        variant="soft"
+        color="plum"
+        type="button"
+        size="1"
+        onClick={handleClick}
+      >
         <DrawingPinIcon />
         {tag}
       </Button>

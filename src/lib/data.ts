@@ -3,7 +3,7 @@ import { Post } from '../api/types';
 const posts: Post[] = [
   {
     id: '4',
-    title: 'Post Title 4',
+    title: 'Let us see how this handles a super long blog title',
     body: 'Lorem Ipsum dates back to the 1500s when an unknown printer took a galley of type and scrambled it to create a type specimen book. This text, though appearing nonsensical, is derived from sections of Cicero’s work “De Finibus Bonorum et Malorum” (The Extremes of Good and Evil), written in 45 BC. The text has been altered over the years, leading to the jumbled Latin that we see today. Its purpose was simple: to serve as filler text that mimics the natural flow of written language without distracting the reader with actual content.',
     tags: ['cool'],
     creationTime: 1734147789,

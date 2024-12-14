@@ -1,4 +1,4 @@
-import { Button, Card, Heading } from '@radix-ui/themes';
+import { Button, Card } from '@radix-ui/themes';
 import { Post as PostType } from '../api/types';
 import { Tag } from './Tag';
 import {
@@ -11,6 +11,7 @@ import styles from './Post.module.css';
 interface PostProps {
   post: PostType;
   type: 'add' | 'remove';
+  showAction?: boolean;
   onActionClick: (id: string) => void;
   onTagClick: (tag: string) => void;
 }
@@ -18,6 +19,7 @@ interface PostProps {
 function Post({
   post: { id, title, body, tags, creationTime },
   type,
+  showAction = true,
   onActionClick,
   onTagClick,
 }: PostProps) {
@@ -31,16 +33,26 @@ function Post({
     <li>
       <article>
         <Card className={styles.card}>
-          <Button
-            type="button"
-            onClick={handleClick}
-            color={type === 'add' ? 'blue' : 'red'}
-          >
-            {type === 'add' ? <PlusIcon /> : <MinusIcon />}
-            {type === 'add' ? 'Add' : 'Remove'}
-          </Button>
-          <Heading as="h3">{title}</Heading>
-          <time>{date.toLocaleString()}</time>
+          <div className={styles.postHeading}>
+            <div>
+              <h3 className={styles.postTitle}>{title}</h3>
+              <div>
+                <time className={styles.time}>{date.toLocaleString()}</time>
+              </div>
+            </div>
+            {showAction && (
+              <Button
+                type="button"
+                onClick={handleClick}
+                color={type === 'add' ? 'blue' : 'crimson'}
+              >
+                {type === 'add' ? <PlusIcon /> : <MinusIcon />}
+                {type === 'add' ? 'Add' : 'Remove'}
+              </Button>
+            )}
+          </div>
+
+          <DividerHorizontalIcon />
           <div dangerouslySetInnerHTML={{ __html: body }} />
           <DividerHorizontalIcon />
           <ul className={styles.tagList}>
