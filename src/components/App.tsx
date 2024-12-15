@@ -76,12 +76,14 @@ function App() {
               <div>
                 <div className={styles.mobileToggleButtons}>
                   <Button
+                    color="blue"
                     variant={activeList === 'all' ? 'solid' : 'outline'}
                     onClick={handleSetAllActiveList}
                   >
                     All Posts
                   </Button>
                   <Button
+                    color="blue"
                     variant={activeList === 'favorite' ? 'solid' : 'outline'}
                     onClick={handleSetFavoriteActiveList}
                   >
@@ -96,7 +98,7 @@ function App() {
                         <span>Active Tags:</span>
                         {activeTags.length === 0 ? (
                           <span>
-                            <em>Select tag to filter &hellip;</em>
+                            <em>None&hellip;</em>
                           </span>
                         ) : (
                           <ul className={styles.activeTagsList}>
