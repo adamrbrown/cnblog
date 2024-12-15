@@ -27,7 +27,7 @@ function Post({
     onActionClick(id);
   };
 
-  const date = new Date(creationTime * 1000);
+  const date = new Date(creationTime);
 
   return (
     <li>
