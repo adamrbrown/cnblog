@@ -65,7 +65,7 @@ function App() {
   return (
     <Container mx="3">
       <main>
-        <h1>Blog Posts</h1>
+        <h1>Blog</h1>
         {isLoading ? (
           <Spinner />
         ) : (

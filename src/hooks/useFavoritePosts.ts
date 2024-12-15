@@ -11,7 +11,10 @@ function useFavoritePosts({ key }: FavoritePostsOptions) {
   });
 
   const addFavorite = (id: string) => {
-    setFavorites((prev) => [...prev, id]);
+    setFavorites((prev) => {
+      if (prev.includes(id)) return prev;
+      return [...prev, id];
+    });
   };
 
   const removeFavorite = (id: string) => {
